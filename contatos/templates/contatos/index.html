@@ -6,6 +6,7 @@
 <table class="table">
     <thead>
     <tr>
+        <th>ID</th>
         <th>Nome</th>
         <th>Sobrenome</th>
         <th>Telefone</th>
@@ -15,16 +16,17 @@
     <tbody>
 
     {% for contato in contatos %}
-        {% if contato.mostrar %}
-            <tr>
-                <td>
-                    <a href="{% url 'ver_contato' contato.id %}">{{ contato.nome }}</a>
-                </td>
-                <td>{{ contato.sobrenome }}</td>
-                <td>{{ contato.telefone }}</td>
-                <td>{{ contato.categoria }}</td>
-            </tr>
-        {%endif%}
+    {% if contato.mostrar %}
+    <tr>
+        <td>{{ contato.id }}</td>
+        <td>
+            <a href="{% url 'ver_contato' contato.id %}">{{ contato.nome }}</a>
+        </td>
+        <td>{{ contato.sobrenome }}</td>
+        <td>{{ contato.telefone }}</td>
+        <td>{{ contato.categoria }}</td>
+    </tr>
+    {%endif%}
     {% endfor %}
 
     </tbody>
@@ -35,12 +37,25 @@
         {% for pagina in contatos.paginator.page_range %}
         {% if contatos.number == pagina %}
         <li class="page-item active">
+<<<<<<< HEAD
             <a class="page-link" href="?page={{ pagina }}">{{ pagina }}</a>
         </li>
         {% %}
+=======
+            <a class="page-link" href="?page={{ pagina }}">{{pagina}}</a>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ pagina }}">{{pagina}}</a>
+        </li>
+        {% endif %}
+>>>>>>> c0a0026e77ba848aacae04e07cce169a13ed2047
         {% endfor %}
     </ul>
 </nav>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> c0a0026e77ba848aacae04e07cce169a13ed2047
 {%endblock%}
