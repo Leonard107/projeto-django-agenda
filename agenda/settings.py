@@ -122,3 +122,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     "templates/static",
 ]
+#Configuração para utilizar as imagens
+MEDIA_ROOT = 'media'
+MEDIA_URL = 'media/'
