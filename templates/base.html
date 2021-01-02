@@ -22,6 +22,15 @@
                                id="search-input"
                                placeholder="Digite sua pesquisa"
                                name="termo">
+
+                        {% if messages  %}
+                            {% for message in messages %}
+
+                        <div class="alert alert-success" role="alert">
+                            {{ message }} {{ message.tags }}
+                        </div>
+                            {% endfor %}
+                        {% endif  %}
                     </div>
                 </div>
             </form>

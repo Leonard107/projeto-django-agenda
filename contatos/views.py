@@ -4,12 +4,15 @@ from .models import Contato
 from django.core.paginator import Paginator
 from django.db.models import Q, Value
 from django.db.models.functions import Concat
+from django.contrib import messages
 
 
 
 # Create your views here.
 
 def index(request):
+    messages.add_message(request, messages.ERROR, 'Ocorreu um erro')
+
     # contatos = Contato.objects.all()
     contatos = Contato.objects.order_by('-id')
 
