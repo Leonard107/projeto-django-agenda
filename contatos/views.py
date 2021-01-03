@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404
 from .models import Contato
 from django.core.paginator import Paginator
@@ -11,8 +11,6 @@ from django.contrib import messages
 # Create your views here.
 
 def index(request):
-    messages.add_message(request, messages.ERROR, 'Ocorreu um erro')
-
     # contatos = Contato.objects.all()
     contatos = Contato.objects.order_by('-id')
 
@@ -43,8 +41,13 @@ def busca(request):
     termo = request.GET.get('termo')
 
     #Se não existir termo na nossa busca
-    if termo is None:
-        raise Http404()
+    if termo is None or not  termo:
+        messages.add_message(
+            request,
+            messages.ERROR,
+            'Campo termo não pode ficar vazio.'
+        )
+        return redirect('index')
 
     campos = Concat('nome', Value(' '), 'sobrenome')
 
