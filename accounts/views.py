@@ -3,6 +3,7 @@ from django.contrib import messages, auth
 from django.core.validators import validate_email
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from .models import FormContato
 # Create your views here.
 def login(request):
     if request.method != 'POST':
@@ -81,4 +82,33 @@ def cadastro(request):
 #Redireciona para a pagina de login, se ele não estiver logado
 @login_required(redirect_field_name='login')
 def dashboard(request):
-    return render(request, 'accounts/dashboard.html')
+    #Se for diferente de post, retorno o formulario vazio.
+    if request.method != 'POST':
+        form = FormContato()
+        return render(request, 'accounts/dashboard.html', {'form': form})
+
+    # FILES está vindo porque temos um campo de imagem
+    form = FormContato(request.POST, request.FILES)
+
+    if not form.is_valid():
+        messages.error(request, 'Erro ao envia formulario.')
+        form = FormContato(request.POST)
+        return render(request, 'accounts/dashboard.html', {'form': form})
+
+    descricao = request.POST.get('descricao')
+
+    if len(descricao) < 5:
+        messages.error(request, 'Descricão precisa ter mais que 5 caracteres.')
+        form = FormContato(request.POST)
+        return render(request, 'accounts/dashboard.html', {'form': form})
+
+    form.save()
+    messages.success(request, f'Contato {request.POST.get("nome")} salvo com sucesso.')
+    return redirect('dashboard')
+    #if form.is_valid():
+     #   form.save()
+    #else:
+     #   messages.error(request, 'Erro ao enviar formulario')
+        #form = FormContato(request.POST)
+      #  return redirect('dashboard')
+        #return render(request, 'accounts/dashboard.html', {'form': form})
